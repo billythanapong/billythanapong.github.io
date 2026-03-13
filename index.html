@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thanapong - Portfolio</title>
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
         /* Basic Reset */
         * {
@@ -16,8 +18,9 @@
             --sidebar-bg: #1d1e28;
             --sidebar-text: #ffffff;
             --sidebar-muted: #a0a0aa;
-            --accent-color: #ff0a5b; /* The classic Hydejack pink */
-            --bg-color: #ffffff;
+            --accent-color: #ff0a5b;
+            --gradient-text: linear-gradient(135deg, #ff0a5b, #ff7e5f); 
+            --bg-color: #f4f5f7; 
             --text-color: #333333;
             --heading-color: #111111;
             --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -32,11 +35,13 @@
             background-color: var(--bg-color);
             color: var(--text-color);
             -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
         /* --- Sidebar (Drawer) Styling --- */
         .sidebar {
             width: 320px;
+            flex: 0 0 320px; 
             background-color: var(--sidebar-bg);
             color: var(--sidebar-text);
             padding: 3rem 2rem;
@@ -45,15 +50,15 @@
             position: fixed;
             height: 100vh;
             overflow-y: auto;
+            z-index: 10;
         }
 
         .profile-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
+            width: 240px;
+            height: 320px;
+            border-radius: 20px; 
             margin-bottom: 1.5rem;
             object-fit: cover;
-            border: 3px solid var(--sidebar-bg);
             box-shadow: 0 0 0 2px var(--accent-color);
             transition: transform 0.3s ease;
         }
@@ -63,17 +68,39 @@
         }
 
         .site-title {
-            font-size: 2rem;
+            font-size: 2.2rem;
             margin: 0 0 0.5rem 0;
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: -0.5px;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .site-description {
             font-size: 1rem;
             line-height: 1.6;
             color: var(--sidebar-muted);
+            margin-bottom: 1rem;
+        }
+
+        /* Social Icons Sidebar */
+        .social-links {
+            display: flex;
+            gap: 1.2rem;
             margin-bottom: 2.5rem;
+        }
+
+        .social-links a {
+            color: var(--sidebar-muted);
+            font-size: 1.4rem;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+
+        .social-links a:hover {
+            color: var(--accent-color);
+            transform: translateY(-2px);
         }
 
         .nav-menu {
@@ -95,21 +122,29 @@
             position: relative;
         }
 
-        .nav-menu a:hover {
-            color: var(--accent-color);
-        }
-
-        /* Active link styling */
-        .nav-menu a.active {
+        .nav-menu a:hover, .nav-menu a.active {
             color: var(--accent-color);
         }
 
         /* --- Main Content Styling --- */
         .content {
-            margin-left: 320px; /* Offset by sidebar width */
-            padding: 4rem 10%;
-            max-width: 900px;
-            width: 100%;
+            margin-left: 320px; 
+            flex: 1; 
+            min-width: 0; 
+            padding: clamp(2rem, 4vw, 4rem); 
+            max-width: 1200px;
+        }
+
+        /* --- Framed Content Boxes --- */
+        .content-box {
+            background: #ffffff;
+            border-radius: 18px;
+            border: 1px solid #eaeaea;
+            padding: clamp(1.5rem, 4vw, 3rem); 
+            margin-bottom: clamp(2rem, 4vw, 3rem);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            width: 100%; 
+            overflow: hidden; 
         }
 
         h1, h2, h3 {
@@ -117,24 +152,19 @@
             font-weight: 700;
         }
 
-        h1 {
-            font-size: 3rem;
+        .content-box h1, .content-box h2 {
             margin-top: 0;
-            margin-bottom: 1.5rem;
-            letter-spacing: -1px;
-        }
-
-        h2 {
-            font-size: 2rem;
-            margin-top: 3rem;
             margin-bottom: 1.5rem;
             border-bottom: 2px solid #eaeaea;
             padding-bottom: 0.5rem;
         }
 
+        h1 { font-size: clamp(2rem, 4vw, 2.5rem); letter-spacing: -1px; }
+        h2 { font-size: clamp(1.5rem, 3vw, 2rem); }
+
         p {
             line-height: 1.8;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: #444;
             margin-bottom: 1.5rem;
         }
@@ -151,62 +181,251 @@
             background-color: rgba(255, 10, 91, 0.1);
         }
 
-        /* Project / Blog List */
-        .item-list {
-            list-style: none;
-            padding: 0;
+        /* --- Two Column Grid (Edu/Exp) --- */
+        .two-column {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+            gap: 2.5rem;
         }
 
-        .item {
+        .column h2 {
+            font-size: 1.5rem;
+            border-bottom: none;
+            margin-bottom: 1.5rem;
+            color: var(--heading-color);
+        }
+
+        /* --- Timeline Styling --- */
+        .timeline {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 0 10px; 
+            border-left: 2px dashed #cbd5e1;
+        }
+
+        .timeline .item {
+            position: relative;
+            padding-left: 25px;
             margin-bottom: 2.5rem;
         }
 
+        .timeline .item:last-child { margin-bottom: 0; }
+
+        .timeline .item::before {
+            content: '';
+            position: absolute;
+            left: -8px; 
+            top: 5px;
+            width: 14px;
+            height: 14px;
+            background-color: #ffffff;
+            border: 3px solid var(--accent-color);
+            border-radius: 50%;
+        }
+
         .item-title {
-            font-size: 1.5rem;
-            margin: 0 0 0.25rem 0;
+            font-size: 1.25rem;
+            margin: 0 0 0.1rem 0;
         }
-
-        .item-title a {
-            color: var(--heading-color);
-            text-decoration: none;
-            transition: color 0.2s ease;
-        }
-
-        .item-title a:hover {
-            color: var(--accent-color);
+        
+        .item-subtitle {
+            font-size: 1rem;
+            color: #666666;
+            font-weight: 500;
+            margin: 0 0 0.5rem 0;
         }
 
         .item-meta {
-            color: #888;
+            color: var(--accent-color);
             font-size: 0.9rem;
+            font-weight: 600;
             margin-bottom: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
 
-        /* --- Responsive Design --- */
-        @media (max-width: 800px) {
-            body {
-                flex-direction: column;
-            }
+        /* --- Project Subboxes & GitHub Button --- */
+        .project-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .project-card {
+            background-color: rgba(29, 30, 40, 0.03); 
+            border: 1px solid rgba(29, 30, 40, 0.05);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+            background-color: rgba(29, 30, 40, 0.04);
+        }
+
+        .project-card .item-meta {
+            margin-bottom: 0.5rem; 
+            font-size: 0.85rem;
+        }
+
+        .project-card .item-title a {
+            color: var(--heading-color);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .project-card .item-title a:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- Project Skill Badges --- */
+        .project-skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-bottom: 1.2rem;
+            margin-top: auto; /* Pushes skills to the bottom above the button */
+        }
+        
+        .project-badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border: 1px solid;
+        }
+        
+        .project-badge.ds { background: rgba(255, 10, 91, 0.08); color: var(--accent-color); border-color: rgba(255, 10, 91, 0.2); }
+        .project-badge.prog { background: rgba(10, 132, 255, 0.08); color: #0a84ff; border-color: rgba(10, 132, 255, 0.2); }
+
+
+        .btn-github {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background-color: #24292e; 
+            color: #ffffff;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            width: fit-content;
+            transition: background 0.2s ease;
+        }
+
+        .btn-github:hover {
+            background-color: var(--accent-color);
+            color: #ffffff;
+        }
+
+        /* --- Skill Cells Styling & Grouping --- */
+        .skill-group { margin-bottom: 2rem; }
+        .skill-group:last-child { margin-bottom: 0; }
+        .skill-group h3 {
+            font-size: 1.15rem;
+            color: #444;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #eaeaea;
+            padding-bottom: 0.4rem;
+            display: inline-block;
+        }
+
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .skill-cell {
+            padding: 0.5rem 1.1rem;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border: 1px solid;
+            transition: all 0.2s ease;
+        }
+
+        .skill-cell.ds { background: rgba(255, 10, 91, 0.08); color: var(--accent-color); border-color: rgba(255, 10, 91, 0.2); }
+        .skill-cell.ds:hover { background: var(--accent-color); color: #ffffff; }
+
+        .skill-cell.prog { background: rgba(10, 132, 255, 0.08); color: #0a84ff; border-color: rgba(10, 132, 255, 0.2); }
+        .skill-cell.prog:hover { background: #0a84ff; color: #ffffff; }
+
+        .skill-cell.lang { background: rgba(48, 209, 88, 0.08); color: #24a147; border-color: rgba(48, 209, 88, 0.2); }
+        .skill-cell.lang:hover { background: #24a147; color: #ffffff; }
+
+        /* --- Resume Download Button Styling --- */
+        .resume-btn {
+            display: inline-block;
+            padding: 0.75rem 2.2rem;
+            background: var(--accent-color);
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(255,10,91,0.2);
+            text-decoration: none;
+            transition: background 0.2s, box-shadow 0.2s;
+            margin-top: 1rem;
+            cursor: pointer;
+        }
+
+        .resume-btn:hover {
+            background: #e00950;
+            box-shadow: 0 6px 16px rgba(255,10,91,0.3);
+            color: #fff;
+        }
+
+        /* --- Contact Layout --- */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .contact-item h3 {
+            margin: 0 0 0.5rem 0;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-item i {
+            color: var(--accent-color);
+        }
+
+        .contact-item p {
+            margin: 0;
+        }
+
+        /* --- Responsive Design (Mobile) --- */
+        @media (max-width: 850px) {
+            body { flex-direction: column; }
             .sidebar {
                 width: 100%;
+                flex: none; 
                 height: auto;
                 position: relative;
-                padding: 2rem;
-                align-items: center;
+                padding: 2.5rem 1.5rem;
+                align-items: left;
                 text-align: center;
             }
-            .profile-img {
-                width: 100px;
-                height: 100px;
-            }
+            .social-links { justify-content: center; }
             .content {
                 margin-left: 0;
-                padding: 2rem;
-            }
-            h1 {
-                font-size: 2.5rem;
+                width: 100%;
+                padding: 1.5rem;
             }
         }
     </style>
@@ -214,43 +433,218 @@
 <body>
 
     <aside class="sidebar">
-        <img src="https://via.placeholder.com/150/1d1e28/ffffff?text=T" alt="Profile Picture" class="profile-img">
+        <img src="tnp_profile.jpg" alt="Profile Picture" class="profile-img">
         
-        <h1 class="site-title">Thanapong</h1>
+        <h1 class="site-title">Thanapong Likhitparinya</h1>
         <p class="site-description">Master's student in Data Analytics and Decision Science at RWTH Aachen University.</p>
         
         <nav>
             <ul class="nav-menu">
-                <li><a href="#about" class="active">About</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Background</a></li>
+                <li><a href="#skills">Skills</a></li>
                 <li><a href="#projects">Projects</a></li>
-                <li><a href="#blog">Blog</a></li>
+                <li><a href="#resume">Resume</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
         </nav>
+        <div class="social-links">
+            <a href="https://linkedin.com/in/yourprofile" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/billythanapong" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="mailto:thanapong@email.com" title="Email"><i class="fas fa-envelope"></i></a>
+        </div>
     </aside>
 
     <main class="content">
-        <section id="about">
-            <h1>Welcome.</h1>
-            <p>I specialize in <strong>Operations Research</strong>, data science, and machine learning. My academic and professional work focuses on solving complex structural problems using tools like linear programming, network flow, scheduling theory, and predictive modeling.</p>
-            <p>I also enjoy <a href="#" class="content-link">cooking Asian cuisine</a> and am currently learning German.</p>
+
+        <section id="experience" class="content-box">
+            <h1>Background</h1>
+            <div class="two-column">
+                
+                <div class="column">
+                    <h2>Education</h2>
+                    <ul class="timeline">
+                        <li class="item">
+                            <h3 class="item-title">RWTH Aachen University</h3>
+                            <div class="item-meta">Oct 2025 - Present </div>
+                            <p style="font-size: 0.95rem; margin-bottom:0;">M.Sc. Data Analytics & Decision Science</p>
+                        </li>
+                        <li class="item">
+                            <h3 class="item-title">King Mongkut's University of Technology Thonburi</h3>
+                            <div class="item-meta">Mar 2019 - Jun 2022 </div>
+                            <p style="font-size: 0.95rem; margin-bottom:0;">B.Sc. Mechanical Engineering 
+                             <br>(Second Class Honors)</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="column">
+                    <h2>Experience</h2>
+                    <ul class="timeline">
+                        <li class="item">
+                            <h3 class="item-title">Digital Transformation Engineer</h3>
+                            <div class="item-subtitle">AGC Flat Glass (Thailand) Inc.</div>
+                            <div class="item-meta">Feb 2023 - Jul 2025</div>
+                            <p style="font-size: 0.95rem; margin-bottom:0;">Skills : Tableau, Alteryx, Power Automate, Power Apps, Image Classification</p>
+                        </li>
+                        <li class="item">
+                            <h3 class="item-title">Research Assistant</h3>
+                            <div class="item-subtitle">King Mongkut's University of Technology Thonburi</div>
+                            <div class="item-meta">Mar 2019 - Jun 2022</div>
+                            <p style="font-size: 0.95rem; margin-bottom:0;">Skills : Academic writing, Research Methodology, Literature Review </p>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
         </section>
 
-        <section id="projects">
-            <h2>Recent Work</h2>
-            <ul class="item-list">
-                <li class="item">
-                    <h3 class="item-title"><a href="#">Company Bankruptcy Prediction Model</a></h3>
-                    <div class="item-meta">Data Science • Feb 2026</div>
-                    <p>Developed a machine learning pipeline utilizing logistic regression. Conducted rigorous feature selection using stepwise methods and correlation matrices, and evaluated performance via ROC curves.</p>
+        <section id="skills" class="content-box">
+            <h1>Skills & Technologies</h1>
+            
+            <div class="skill-group">
+                <h3>Data Science & Analytics</h3>
+                <div class="skills-grid">
+                    <span class="skill-cell ds">Operations Research</span>
+                    <span class="skill-cell ds">Linear Programming</span>
+                    <span class="skill-cell ds">Network Flow</span>
+                    <span class="skill-cell ds">Scheduling Theory</span>
+                    <span class="skill-cell ds">Machine Learning</span>
+                    <span class="skill-cell ds">Statistical Analysis</span>
+                </div>
+            </div>
+
+            <div class="skill-group">
+                <h3>Programming & Tools</h3>
+                <div class="skills-grid">
+                    <span class="skill-cell prog">Python</span>
+                    <span class="skill-cell prog">R</span>
+                    <span class="skill-cell prog">scikit-learn</span>
+                    <span class="skill-cell prog">pandas</span>
+                    <span class="skill-cell prog">NumPy</span>
+                    <span class="skill-cell prog">Data Visualization</span>
+                </div>
+            </div>
+
+            <div class="skill-group">
+                <h3>Languages</h3>
+                <div class="skills-grid">
+                    <span class="skill-cell lang">Thai (Native)</span>
+                    <span class="skill-cell lang">English (C1)</span>
+                    <span class="skill-cell lang">German (A1)</span>
+                </div>
+            </div>
+
+        </section>
+        
+        <section id="projects" class="content-box">
+            <h1>Projects</h1>
+            <ul class="project-list">
+                
+                
+                <li class="project-card">
+                    <div class="item-meta">Optimization Research</div>
+                    <h3 class="item-title"><a href="#">Inventory-ROP-and-Routing-Optimization</a></h3>
+                    <p style="margin-bottom:1rem; margin-top:0.5rem;">Implemented algorithms to solve classical OR problems including minimum spanning trees, vehicle routing, and the knapsack problem.</p>
+                    
+                    <div class="project-skills">
+                        <span class="project-badge ds">Algorithms</span>
+                        <span class="project-badge prog">Python</span>
+                        <span class="project-badge prog">Network Flow</span>
+                    </div>
+
+                    <a href="https://github.com/billythanapong/Inventory-ROP-and-Routing-Optimization" target="_blank" class="btn-github">
+                        <i class="fab fa-github"></i> View Code
+                    </a>
                 </li>
-                <li class="item">
-                    <h3 class="item-title"><a href="#">Graph Theory & Optimization Analysis</a></h3>
-                    <div class="item-meta">Operations Research • Jan 2026</div>
-                    <p>Implemented algorithms to solve classical OR problems including minimum spanning trees, vehicle routing, and the knapsack problem.</p>
+
+                <li class="project-card">
+                    <div class="item-meta">Machine Learning</div>
+                    <h3 class="item-title"><a href="https://github.com/billythanapong/THAI_ALPR_CAPSTONE">Thai License Plate Recognition</a></h3>
+                    <p style="margin-bottom:1rem; margin-top:0.5rem;">Replace this text with a short summary of the project from your GitHub repository.</p>
+                    
+                    <div class="project-skills">
+                        <span class="project-badge ds">YOLO</span>
+                        <span class="project-badge prog">Image Recognition</span>
+                        <span class="project-badge prog">Deep learning</span>
+                    </div>
+
+                    <a href="https://github.com/billythanapong/THAI_ALPR_CAPSTONE" target="_blank" class="btn-github">
+                        <i class="fab fa-github"></i> View Code
+                    </a>
                 </li>
+
+                <li class="project-card">
+                    <div class="item-meta">Machine Learning</div>
+                    <h3 class="item-title"><a href="#">Depression-Diagnosis-based-on-Natural-Language-Processing</a></h3>
+                    <p style="margin-bottom:1rem; margin-top:0.5rem;">Replace this text with a short summary of the project from your GitHub repository.</p>
+                    
+                    <div class="project-skills">
+                        <span class="project-badge prog">Web Scraping</span>
+                        <span class="project-badge ds">NLP</span>
+                    </div>
+
+                    <a href="https://github.com/billythanapong/Depression-Diagnosis-based-on-Natural-Language-Processing" target="_blank" class="btn-github">
+                        <i class="fab fa-github"></i> View Code
+                    </a>
+                </li>
+
+                <li class="project-card">
+                    <div class="item-meta">Machine Learning</div>
+                    <h3 class="item-title"><a href="#">Ames-housing-Price-Prediction</a></h3>
+                    <p style="margin-bottom:1rem; margin-top:0.5rem;">Replace this text with a short summary of the project from your GitHub repository.</p>
+                    
+                    <div class="project-skills">
+                        <span class="project-badge prog">Regression</span>
+                        <span class="project-badge ds">EDA</span>
+                    </div>
+
+                    <a href="https://github.com/billythanapong/Ames-housing-Price-Prediction" target="_blank" class="btn-github">
+                        <i class="fab fa-github"></i> View Code
+                    </a>
+                </li>
+
             </ul>
         </section>
+
+        <section id="resume" class="content-box">
+            <h1>Resume</h1>
+            
+            <div style="margin-bottom:1.5rem; border-radius:12px; overflow:hidden; border:1px solid #eaeaea; background:#f9f9f9; text-align:center;">
+                <object data="resume.pdf" type="application/pdf" width="100%" height="700px">
+                    <embed src="resume.pdf" type="application/pdf" width="100%" height="700px" />
+                    <div style="padding: 4rem 2rem;">
+                        <p><strong>Preview not available.</strong></p>
+                        <p style="font-size:0.95rem;">Browsers restrict local PDF previews. Please run this site on a server, or use the download button below.</p>
+                    </div>
+                </object>
+            </div>
+            
+            <a href="resume.pdf" download="Thanapong_Resume.pdf" class="resume-btn">Download Resume</a>
+        </section>
+
+        <section id="contact" class="content-box">
+            <h1>Contact</h1>
+            <p>I am currently open to new opportunities. Whether you have a question or just want to connect, feel free to reach out!</p>
+            
+            <div class="contact-grid">
+                <div class="contact-item">
+                    <h3><i class="fas fa-phone"></i> Phone</h3>
+                    <p>+49 (0) 123 4567 890</p>
+                </div>
+                
+                <div class="contact-item">
+                    <h3><i class="fas fa-envelope"></i> Email</h3>
+                    <p><a href="mailto:thanapong@email.com" class="content-link">thanapong@email.com</a></p>
+                </div>
+                
+                <div class="contact-item">
+                    <h3><i class="fab fa-linkedin"></i> LinkedIn</h3>
+                    <p><a href="https://linkedin.com/in/yourprofile" class="content-link" target="_blank">linkedin.com/in/yourprofile</a></p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
 </body>
