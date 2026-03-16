@@ -18,8 +18,8 @@
             --sidebar-bg: #1d1e28;
             --sidebar-text: #ffffff;
             --sidebar-muted: #a0a0aa;
-            --accent-color: #ff0a5b;
-            --gradient-text: linear-gradient(135deg, #ff0a5b, #ff7e5f); 
+            --accent-color: #2179c7;
+            --gradient-text: linear-gradient(135deg, #2179c7, #5fa2e6); 
             --bg-color: #f4f5f7; 
             --text-color: #333333;
             --heading-color: #111111;
@@ -59,7 +59,6 @@
             border-radius: 20px; 
             margin-bottom: 1.5rem;
             object-fit: cover;
-            box-shadow: 0 0 0 2px var(--accent-color);
             transition: transform 0.3s ease;
         }
 
@@ -89,7 +88,7 @@
         .social-links {
             display: flex;
             gap: 1.2rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2.0rem;
         }
 
         .social-links a {
@@ -132,7 +131,10 @@
             flex: 1; 
             min-width: 0; 
             padding: clamp(2rem, 4vw, 4rem); 
-            max-width: 1200px;
+            /* Added Flexbox to perfectly center the boxes */
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
         }
 
         /* --- Framed Content Boxes --- */
@@ -144,6 +146,8 @@
             margin-bottom: clamp(2rem, 4vw, 3rem);
             box-shadow: 0 4px 20px rgba(0,0,0,0.04);
             width: 100%; 
+            /* Expanded max-width so it grows smoothly on big monitors */
+            max-width: 1400px; 
             overflow: hidden; 
         }
 
@@ -178,7 +182,7 @@
 
         a.content-link:hover {
             border-bottom-style: solid;
-            background-color: rgba(255, 10, 91, 0.1);
+            background-color: rgba(33, 121, 199, 0.1);
         }
 
         /* --- Two Column Grid (Edu/Exp) --- */
@@ -264,6 +268,16 @@
             flex-direction: column;
         }
 
+        /* Adjusted Project Image for Cards */
+        .project-img {
+            width: 100%;
+            height: 180px; 
+            border-radius: 8px; 
+            margin-bottom: 1.5rem;
+            object-fit: cover;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
         .project-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 8px 24px rgba(0,0,0,0.06);
@@ -285,13 +299,19 @@
             color: var(--accent-color);
         }
 
+        .project-desc {
+            margin-bottom: 1rem; 
+            margin-top: 0.5rem;
+            font-size: 0.95rem;
+        }
+
         /* --- Project Skill Badges --- */
         .project-skills {
             display: flex;
             flex-wrap: wrap;
             gap: 0.4rem;
             margin-bottom: 1.2rem;
-            margin-top: auto; /* Pushes skills to the bottom above the button */
+            margin-top: auto;
         }
         
         .project-badge {
@@ -300,11 +320,10 @@
             font-size: 0.75rem;
             font-weight: 600;
             border: 1px solid;
+            background: rgba(33, 121, 199, 0.08); 
+            color: var(--accent-color); 
+            border-color: rgba(33, 121, 199, 0.2);
         }
-        
-        .project-badge.ds { background: rgba(255, 10, 91, 0.08); color: var(--accent-color); border-color: rgba(255, 10, 91, 0.2); }
-        .project-badge.prog { background: rgba(10, 132, 255, 0.08); color: #0a84ff; border-color: rgba(10, 132, 255, 0.2); }
-
 
         .btn-github {
             display: inline-flex;
@@ -351,16 +370,15 @@
             font-weight: 600;
             border: 1px solid;
             transition: all 0.2s ease;
+            background: rgba(33, 121, 199, 0.08); 
+            color: var(--accent-color); 
+            border-color: rgba(33, 121, 199, 0.2);
         }
 
-        .skill-cell.ds { background: rgba(255, 10, 91, 0.08); color: var(--accent-color); border-color: rgba(255, 10, 91, 0.2); }
-        .skill-cell.ds:hover { background: var(--accent-color); color: #ffffff; }
-
-        .skill-cell.prog { background: rgba(10, 132, 255, 0.08); color: #0a84ff; border-color: rgba(10, 132, 255, 0.2); }
-        .skill-cell.prog:hover { background: #0a84ff; color: #ffffff; }
-
-        .skill-cell.lang { background: rgba(48, 209, 88, 0.08); color: #24a147; border-color: rgba(48, 209, 88, 0.2); }
-        .skill-cell.lang:hover { background: #24a147; color: #ffffff; }
+        .skill-cell:hover { 
+            background: var(--accent-color); 
+            color: #ffffff; 
+        }
 
         /* --- Resume Download Button Styling --- */
         .resume-btn {
@@ -372,7 +390,7 @@
             font-weight: 600;
             border: none;
             border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(255,10,91,0.2);
+            box-shadow: 0 4px 12px rgba(33, 121, 199, 0.2);
             text-decoration: none;
             transition: background 0.2s, box-shadow 0.2s;
             margin-top: 1rem;
@@ -380,8 +398,8 @@
         }
 
         .resume-btn:hover {
-            background: #e00950;
-            box-shadow: 0 6px 16px rgba(255,10,91,0.3);
+            background: #19609f;
+            box-shadow: 0 6px 16px rgba(33, 121, 199, 0.3);
             color: #fff;
         }
 
@@ -409,6 +427,74 @@
             margin: 0;
         }
 
+        /* --- Modal (Pop-up) Styling --- */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.6); 
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-content {
+            background-color: #ffffff;
+            margin: 5% auto; 
+            padding: 2.5rem;
+            border-radius: 18px;
+            width: 90%; 
+            max-width: 650px;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            animation: modalFadeIn 0.3s ease;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .close-btn {
+            color: #aaa;
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: var(--accent-color);
+        }
+
+        #modalImg {
+            width: 100%;
+            height: auto;
+            max-height: 350px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        #modalTitle {
+            margin-top: 0;
+            margin-bottom: 0.5rem;
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        #modalDesc {
+            color: #444;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
         /* --- Responsive Design (Mobile) --- */
         @media (max-width: 850px) {
             body { flex-direction: column; }
@@ -433,7 +519,7 @@
 <body>
 
     <aside class="sidebar">
-        <img src="tnp_profile.jpg" alt="Profile Picture" class="profile-img">
+        <img src="img/thanapong_pic2.jpg" alt="Profile Picture" class="profile-img">
         
         <h1 class="site-title">Thanapong Likhitparinya</h1>
         <p class="site-description">Master's student in Data Analytics and Decision Science at RWTH Aachen University.</p>
@@ -449,13 +535,22 @@
             </ul>
         </nav>
         <div class="social-links">
-            <a href="www.linkedin.com/in/thanaponglik" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            <a href="https://linkedin.com/in/thanaponglik" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
             <a href="https://github.com/billythanapong" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
             <a href="mailto:thanapong.likhitparinya5@rwth-aachen.de" title="Email"><i class="fas fa-envelope"></i></a>
         </div>
     </aside>
 
     <main class="content">
+
+        <section id="about" class="content-box">
+            <h1>About Me</h1>
+            <p style="font-size:1.15em">
+            <span style="font-size:1.15em; color:#2179c7;"><strong>A professional with over two and a half years of experience in digital transformation in the manufacturing sector</strong></span>, applying data analytics and AI to address operational and business challenges. Experience includes projects such as process optimization, classical machine learning applications like sales forecasting, and image classification for defect type prediction.
+            Also involved in people development by training and guiding users in adopting digital tools and data-driven workflows. Interested in translating data into actionable insights, improving business processes through automation, and building interactive dashboards using Tableau to support data-informed decision making.
+            <span style="font-size:1.15em; color:#2179c7;"><strong>Currently expanding my expertise through studies in Data Analytics and Decision Science at RWTH Aachen Business School</strong></span>, where I am developing skills in machine learning foundations, analytics applications in areas such as marketing, energy and climate, and finance, as well as optimization models for solving real-world business problems.
+            </p>
+        </section>
 
         <section id="experience" class="content-box">
             <h1>Background</h1>
@@ -465,14 +560,14 @@
                     <h2>Education</h2>
                     <ul class="timeline">
                         <li class="item">
-                            <h3 class="item-title">RWTH Aachen University</h3>
+                            <h3 class="item-title">M.Sc. Data Analytics & Decision Science</h3>
                             <div class="item-meta">Oct 2025 - Present </div>
-                            <p style="font-size: 0.95rem; margin-bottom:0;">M.Sc. Data Analytics & Decision Science</p>
+                            <p style="font-size: 0.95rem; margin-bottom:0;">RWTH Aachen University</p>
                         </li>
                         <li class="item">
-                            <h3 class="item-title">King Mongkut's University of Technology Thonburi</h3>
+                            <h3 class="item-title">B.Sc. Mechanical Engineering</h3>
                             <div class="item-meta">Mar 2019 - Jun 2022 </div>
-                            <p style="font-size: 0.95rem; margin-bottom:0;">B.Sc. Mechanical Engineering 
+                            <p style="font-size: 0.95rem; margin-bottom:0;"> King Mongkut's University of Technology Thonburi
                              <br>(Second Class Honors)</p>
                         </li>
                     </ul>
@@ -485,13 +580,13 @@
                             <h3 class="item-title">Digital Transformation Engineer</h3>
                             <div class="item-subtitle">AGC Flat Glass (Thailand) Inc.</div>
                             <div class="item-meta">Feb 2023 - Jul 2025</div>
-                            <p style="font-size: 0.95rem; margin-bottom:0;">Skills : Tableau, Alteryx, Power Automate, Power Apps, Image Classification</p>
+                            <p style="font-size: 0.95rem; margin-bottom:0;">Skills : Tableau, Alteryx, Uipath(RPA), Power Automate, Power Apps, Image Classification</p>
                         </li>
                         <li class="item">
                             <h3 class="item-title">Research Assistant</h3>
                             <div class="item-subtitle">King Mongkut's University of Technology Thonburi</div>
                             <div class="item-meta">Mar 2019 - Jun 2022</div>
-                            <p style="font-size: 0.95rem; margin-bottom:0;">Skills : Academic writing, Research Methodology, Literature Review </p>
+                            <p style="font-size: 0.95rem; margin-bottom:0;">Skills : FLUKA, SERPENT, XOOPIC, Academic writing, Research Methodology, Literature Review </p>
                         </li>
                     </ul>
                 </div>
@@ -505,12 +600,16 @@
             <div class="skill-group">
                 <h3>Data Science & Analytics</h3>
                 <div class="skills-grid">
-                    <span class="skill-cell ds">Operations Research</span>
-                    <span class="skill-cell ds">Linear Programming</span>
-                    <span class="skill-cell ds">Network Flow</span>
-                    <span class="skill-cell ds">Scheduling Theory</span>
-                    <span class="skill-cell ds">Machine Learning</span>
-                    <span class="skill-cell ds">Statistical Analysis</span>
+                    <span class="skill-cell ds">Alteryx</span>
+                    <span class="skill-cell ds">Jupyter Notebook</span>
+                    <span class="skill-cell ds">Seaborn</span>
+                    <span class="skill-cell ds">Scikit-learn</span>
+                    <span class="skill-cell ds">Scipy</span>
+                    <span class="skill-cell ds">Streamlit</span>
+                    <span class="skill-cell ds">MLFlow</span>
+                    <span class="skill-cell ds">Pytorch</span>
+                    <span class="skill-cell ds">FastAPI</span>
+                    <span class="skill-cell ds">Docker</span>
                 </div>
             </div>
 
@@ -518,11 +617,13 @@
                 <h3>Programming & Tools</h3>
                 <div class="skills-grid">
                     <span class="skill-cell prog">Python</span>
-                    <span class="skill-cell prog">R</span>
-                    <span class="skill-cell prog">scikit-learn</span>
-                    <span class="skill-cell prog">pandas</span>
-                    <span class="skill-cell prog">NumPy</span>
-                    <span class="skill-cell prog">Data Visualization</span>
+                    <span class="skill-cell prog">PostgreSQL</span>
+                    <span class="skill-cell prog">Scikit-learn</span>
+                    <span class="skill-cell prog">Tableau</span>
+                    <span class="skill-cell prog">Uipath</span>
+                    <span class="skill-cell prog">Power Automate</span>
+                    <span class="skill-cell prog">Power Apps</span>
+                    <span class="skill-cell prog">Git</span>
                 </div>
             </div>
 
@@ -541,11 +642,14 @@
             <h1>Projects</h1>
             <ul class="project-list">
                 
-                
                 <li class="project-card">
+                    <img src="img/Warehouse_transport.png" alt="Inventory Routing" class="project-img">
                     <div class="item-meta">Optimization Research</div>
-                    <h3 class="item-title"><a href="#">Inventory-ROP-and-Routing-Optimization</a></h3>
-                    <p style="margin-bottom:1rem; margin-top:0.5rem;">Implemented algorithms to solve classical OR problems including minimum spanning trees, vehicle routing, and the knapsack problem.</p>
+                    <h3 class="item-title">
+                        <a href="javascript:void(0)" onclick="openModal(this)">Inventory-ROP-and-Routing-Optimization</a>
+                    </h3>
+                    
+                    <p class="project-desc">Simulates an order-to-warehouse workflow where sales orders trigger inventory checks (against safety stock/ROP) and generate optimized forklift picking routes. Produces a trip document via API output to support downstream warehouse operations and replenishment decisions.</p>
                     
                     <div class="project-skills">
                         <span class="project-badge ds">Algorithms</span>
@@ -559,9 +663,13 @@
                 </li>
 
                 <li class="project-card">
+                    <img src="img/LicensePlate_recognition.png" alt="ALPR Capstone" class="project-img">
                     <div class="item-meta">Machine Learning</div>
-                    <h3 class="item-title"><a href="https://github.com/billythanapong/THAI_ALPR_CAPSTONE">Thai License Plate Recognition</a></h3>
-                    <p style="margin-bottom:1rem; margin-top:0.5rem;">Replace this text with a short summary of the project from your GitHub repository.</p>
+                    <h3 class="item-title">
+                        <a href="javascript:void(0)" onclick="openModal(this)">Thai License Plate Recognition</a>
+                    </h3>
+                    <p class="project-desc">License Plate Recognition focused on Thai plates.
+                       Implements a computer vision pipeline for plate detection and character recognition, with preprocessing and evaluation to robustly read plates under real-world conditions.</p>
                     
                     <div class="project-skills">
                         <span class="project-badge ds">YOLO</span>
@@ -575,9 +683,14 @@
                 </li>
 
                 <li class="project-card">
+                    <img src="img/Depression_analysis.png" alt="Depression Diagnosis NLP" class="project-img">
                     <div class="item-meta">Machine Learning</div>
-                    <h3 class="item-title"><a href="#">Depression-Diagnosis-based-on-Natural-Language-Processing</a></h3>
-                    <p style="margin-bottom:1rem; margin-top:0.5rem;">Replace this text with a short summary of the project from your GitHub repository.</p>
+                    <h3 class="item-title">
+                        <a href="javascript:void(0)" onclick="openModal(this)">Depression-Diagnosis-based-on-NLP</a>
+                    </h3>
+                    <p class="project-desc">Builds an NLP pipeline to analyze text scraping from reddit thread and predict depression-related signals. Covers text preprocessing, feature extraction/embeddings, model training and evaluation, and interpretation of results to support screening-oriented insights.
+
+</p>
                     
                     <div class="project-skills">
                         <span class="project-badge prog">Web Scraping</span>
@@ -590,9 +703,12 @@
                 </li>
 
                 <li class="project-card">
+                    <img src="img/Ames_housing.png" alt="Housing Price Prediction" class="project-img">
                     <div class="item-meta">Machine Learning</div>
-                    <h3 class="item-title"><a href="#">Ames-housing-Price-Prediction</a></h3>
-                    <p style="margin-bottom:1rem; margin-top:0.5rem;">Replace this text with a short summary of the project from your GitHub repository.</p>
+                    <h3 class="item-title">
+                        <a href="javascript:void(0)" onclick="openModal(this)">Ames-housing-Price-Prediction</a>
+                    </h3>
+                    <p class="project-desc">End-to-end regression project predicting house sale prices using the Ames Housing dataset. Includes data cleaning, feature engineering, model comparison/tuning, and performance evaluation to produce accurate price estimates and explain key value drivers.</p>
                     
                     <div class="project-skills">
                         <span class="project-badge prog">Regression</span>
@@ -625,7 +741,7 @@
 
         <section id="contact" class="content-box">
             <h1>Contact</h1>
-            <p>I am currently open to new opportunities. Whether you have a question or just want to connect, feel free to reach out!</p>
+            <p>I am currently open to new opportunities. Whether you have a question or want to connect, feel free to reach me out</p>
             
             <div class="contact-grid">
                 <div class="contact-item">
@@ -635,7 +751,7 @@
                 
                 <div class="contact-item">
                     <h3><i class="fas fa-envelope"></i> Email</h3>
-                    <p><a href="mailto:thanapong.likhitparinya5@rwth-aachen.de" class="content-link">thanapong.likhitparinya5@rwth-aachen.de</a></p>
+                    <p><a href="mailto:thanapong.likhitparinya@rwth-aachen.de" class="content-link">thanapong.likhitparinya@rwth-aachen.de</a></p>
                 </div>
                 
                 <div class="contact-item">
@@ -646,6 +762,58 @@
         </section>
 
     </main>
+
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <img id="modalImg" src="" alt="Project Preview">
+            <div id="modalMeta" class="item-meta" style="margin-bottom: 0.5rem;"></div>
+            <h2 id="modalTitle">Project Title</h2>
+            <p id="modalDesc">Project description goes here.</p>
+            <div id="modalSkills" class="project-skills" style="margin-bottom: 1.5rem;"></div>
+            <a id="modalLink" href="#" target="_blank" class="btn-github">
+                <i class="fab fa-github"></i> View Code
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function openModal(element) {
+            // Find the closest card to the clicked title
+            const card = element.closest('.project-card');
+            
+            // Extract the info from the card
+            const title = card.querySelector('.item-title').innerText;
+            const meta = card.querySelector('.item-meta').innerText;
+            const desc = card.querySelector('.project-desc').innerText;
+            const imgSrc = card.querySelector('.project-img').src;
+            const skillsHtml = card.querySelector('.project-skills').innerHTML;
+            const gitLink = card.querySelector('.btn-github').href;
+
+            // Inject the info into the Modal
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalMeta').innerText = meta;
+            document.getElementById('modalDesc').innerText = desc;
+            document.getElementById('modalImg').src = imgSrc;
+            document.getElementById('modalSkills').innerHTML = skillsHtml;
+            document.getElementById('modalLink').href = gitLink;
+
+            // Display the modal
+            document.getElementById('projectModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('projectModal').style.display = 'none';
+        }
+
+        // Close the modal if the user clicks anywhere outside of the modal content box
+        window.onclick = function(event) {
+            const modal = document.getElementById('projectModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
 
 </body>
 </html>
